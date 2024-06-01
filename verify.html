@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Code</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+    </style>
+    <script>
+        function verifyCode() {
+            const enteredCode = document.getElementById('enteredCode').value;
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                alert('Please sign in first.');
+                window.location.href = 'index.html';
+                return;
+            }
+            const user = JSON.parse(localStorage.getItem(currentUser));
+            if (!user || !user.code) {
+                alert('Code not found. Please generate a code.');
+                window.location.href = 'generate.html';
+                return;
+            }
+            if (enteredCode === user.code) {
+                alert('Code verified successfully!');
+                window.location.href = `welcome.html?user=${currentUser}&code=${user.code}`;
+            } else {
+                alert('Invalid code. Please try again.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Code Verification Page</h1>
+    <label for="enteredCode">Enter code:</label>
+    <input type="text" id="enteredCode">
+    <button onclick="verifyCode()">Verify Code</button>
+    <p>Go back to <a href="generate.html">code generation page</a>.</p>
+</body>
+</html>
