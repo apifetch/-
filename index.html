@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up / Sign In</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .hidden { display: none; }
+    </style>
+    <script>
+        function signUp() {
+            const username = document.getElementById('signupUsername').value;
+            const password = document.getElementById('signupPassword').value;
+            if (username && password) {
+                localStorage.setItem(username, JSON.stringify({ password, code: '', codeTime: 0 }));
+                alert('Sign Up Successful! Please sign in.');
+                document.getElementById('signupForm').reset();
+            } else {
+                alert('Please enter both username and password.');
+            }
+        }
+
+        function signIn() {
+            const username = document.getElementById('signinUsername').value;
+            const password = document.getElementById('signinPassword').value;
+            const user = JSON.parse(localStorage.getItem(username));
+            if (user && user.password === password) {
+                localStorage.setItem('currentUser', username);
+                window.location.href = 'generate.html';
+            } else {
+                alert('Invalid username or password.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Sign Up</h1>
+    <form id="signupForm" onsubmit="signUp(); return false;">
+        <label for="signupUsername">Username:</label>
+        <input type="text" id="signupUsername" required>
+        <label for="signupPassword">Password:</label>
+        <input type="password" id="signupPassword" required>
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <h1>Sign In</h1>
+    <form id="signinForm" onsubmit="signIn(); return false;">
+        <label for="signinUsername">Username:</label>
+        <input type="text" id="signinUsername" required>
+        <label for="signinPassword">Password:</label>
+        <input type="password" id="signinPassword" required>
+        <button type="submit">Sign In</button>
+    </form>
+</body>
+</html>
