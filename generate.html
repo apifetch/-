@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Code</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+    </style>
+    <script>
+        function generateCode() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                alert('Please sign in first.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const user = JSON.parse(localStorage.getItem(currentUser));
+            if (!user) {
+                alert('User not found.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            if (!user.code) {
+                const code = generateRandomString(5); // Generate a random string of 5 characters
+                user.code = code;
+                localStorage.setItem(currentUser, JSON.stringify(user));
+            }
+
+            document.getElementById('code').innerText = user.code;
+        }
+
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+
+        function setup() {
+            generateCode();
+        }
+
+        window.onload = setup;
+    </script>
+</head>
+<body>
+    <h1>Code Generation Page</h1>
+    <p>Your code: <span id="code"></span></p>
+    <p>Go to <a href="verify.html">verification page</a> to verify the code.</p>
+</body>
+</html>
