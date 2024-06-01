@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+    </style>
+    <script>
+        function logout() {
+            localStorage.removeItem('currentUser'); // Clear current user session
+            window.location.href = 'index.html'; // Redirect to login page
+        }
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function setup() {
+            const username = getQueryParam('user');
+            const code = getQueryParam('code');
+            if (!username || !code) {
+                alert('Invalid request.');
+                window.location.href = 'index.html';
+                return;
+            }
+            document.getElementById('username').innerText = username;
+            document.getElementById('code').innerText = code;
+        }
+
+        window.onload = setup;
+    </script>
+</head>
+<body>
+    <h1>Welcome</h1>
+    <p>Username: <span id="username"></span></p>
+    <p>Your code: <span id="code"></span></p>
+    <p><a href="#" onclick="logout()">Log Out</a></p>
+</body>
+</html>
